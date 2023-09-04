@@ -55,7 +55,7 @@ public class CommentServiceImpl implements ICommentService {
         List<Comment> comments = commentRepository.findByPostId(postId);
 
         // Convert list of comment entities to list of comment DTO's
-        return comments.stream().map(this::mapToDto).collect(Collectors.toList());
+        return comments.stream().map(comment -> mapToDto(comment)).collect(Collectors.toList());
     }
 
     @Override
@@ -116,10 +116,22 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     private CommentDto mapToDto(Comment comment){
-        return mapper.map(comment, CommentDto.class);
+       // CommentDto commentDto = mapper.map(comment, CommentDto.class);
+        CommentDto commentDto = new CommentDto();
+        commentDto.setId(comment.getId());
+        commentDto.setName(comment.getName());
+        commentDto.setEmail(comment.getEmail());
+        commentDto.setBody(comment.getBody());
+        return  commentDto;
     }
 
     private Comment mapToEntity(CommentDto commentDto){
-        return mapper.map(commentDto, Comment.class);
+//        Comment comment = mapper.map(commentDto, Comment.class);
+        Comment comment = new Comment();
+       // comment.setId(commentDto.getId());
+        comment.setName(commentDto.getName());
+        comment.setEmail(commentDto.getEmail());
+        comment.setBody(commentDto.getBody());
+        return comment;
     }
 }
